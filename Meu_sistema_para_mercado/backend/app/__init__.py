@@ -1,6 +1,6 @@
+
 from flask import Flask
+from app.routes.rota_produtos import produtos_bp
 
-from backend.app.routes import estoque
 app = Flask(__name__)
-from app.routes import cadastrar
-
+app.register_blueprint(produtos_bp)

@@ -1,16 +1,17 @@
 from app.DATABASE import get_db
+from typing import Optional
 
 class Produto:
-    def __init__(self, codigo_barras, nome_produto, valor_produto, setor):
+    def __init__(self, codigo_barras, nome_produto, valor_produto, setor,quantidade=0):
         self.codigo_barras = codigo_barras
         self.nome_produto = nome_produto
         self.valor_produto = valor_produto
         self.setor = setor
-        self.quantidade = 0
+        self.quantidade = quantidade
 
     def ajustar_quantidade(self, quantidade):
         if quantidade < 0:
-            return False
+            return None
         try:
             with get_db() as conn:
                 cursor = conn.cursor()
@@ -23,7 +24,7 @@ class Produto:
             self.quantidade = quantidade
             return True
         except Exception:
-            return False
+            return None
 
     def ajustar_valor_produto(self, novo_valor):
         if novo_valor < 0:
@@ -56,3 +57,25 @@ class Produto:
             return True
         except Exception:
             return False
+    @classmethod
+    def buscar(cls, codigo_barras: str ) -> Optional["Produto"]:
+        try:
+            with get_db() as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    SELECT codigo_barras, nome_produto, valor_prod, setor_id, quantidade
+                    FROM Produtos_cadastrados
+                    WHERE codigo_barras = ?
+                """, (codigo_barras,))
+                resultado = cursor.fetchone()
+                if not resultado:
+                    return None
+                return cls(
+                    codigo_barras=resultado[0],
+                    nome_produto=resultado[1],
+                    valor_produto=resultado[2],
+                    setor=resultado[3],
+                    quantidade=resultado[4]
+                )
+        except Exception as e:
+            return None

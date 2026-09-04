@@ -2,7 +2,7 @@ from flask import  request, jsonify
 from app.DATABASE import get_db
 import sqlite3
 from app import app
-from app.models import Produto
+from Meu_sistema_para_mercado.backend.models.produto import Produto
 
 
 @app.route('/cadastrar', methods=["POST"])
