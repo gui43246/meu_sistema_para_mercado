@@ -1,11 +1,10 @@
 from flask import  request, jsonify
 from app.DATABASE import get_db
 import sqlite3
-from app import app
-from Meu_sistema_para_mercado.backend.models.produto import Produto
+from models.produto import Produto
+from .Produtos_bp import produtos_bp
 
-
-@app.route('/cadastrar', methods=["POST"])
+@produtos_bp.route('/cadastrar', methods=["POST"])
 def cadastrar_produto():
     conn = None
     try:

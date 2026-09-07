@@ -1,0 +1,25 @@
+
+POST http://127.0.0.1:5000/cadastrar
+Content-Type:application/json
+
+{
+  "codigo_barras": "7891234567890",
+  "nome_produto": "Arroz Tipo 1 5kg",
+  "valor_prod": 29.90,
+  "setor_id": 1
+}
+
+###
+GET http://127.0.0.1:5000/estoque
+Content-Type:application/json
+
+###
+
+POST http://127.0.0.1:5000/EditarQuantidade
+Content-Type:application/json
+
+
+{
+  "codigo_barras": "7891234567890",
+  "quantidade":20
+}

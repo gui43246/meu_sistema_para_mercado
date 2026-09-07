@@ -63,11 +63,17 @@ class Produto:
             with get_db() as conn:
                 cursor = conn.cursor()
                 cursor.execute("""
-                    SELECT codigo_barras, nome_produto, valor_prod, setor_id, quantidade
-                    FROM Produtos_cadastrados
-                    WHERE codigo_barras = ?
+                    SELECT p.codigo_barras,
+                    p.nome_produto, 
+                    p.valor_prod, 
+                    p.setor, COALESCE (e.quantidade,0) as quantidade
+                    FROM Produtos_cadastrados p
+                    LEFT JOIN estoque e ON
+                    p.codigo_barras = e.codigo_barras
+                    Where p.codigo_barras = ?
                 """, (codigo_barras,))
                 resultado = cursor.fetchone()
+                
                 if not resultado:
                     return None
                 return cls(

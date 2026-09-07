@@ -1,9 +1,9 @@
 from flask import Flask,request,jsonify
 import sqlite3
-from app import app 
 from app.DATABASE import get_db
+from .Produtos_bp import produtos_bp
 
-@app.route("/estoque",methods=["GET"])
+@produtos_bp.route("/estoque",methods=["GET"])
 def  listar_estoque():
     
     try:
