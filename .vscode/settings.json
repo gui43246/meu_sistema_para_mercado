@@ -1,0 +1,5 @@
+{
+    "code-runner.executorMap": {
+        "python": "set PYTHONPATH=$workspaceRoot\\Meu_sistema_para_mercado\\backend && python $fullFileName"
+    }
+}

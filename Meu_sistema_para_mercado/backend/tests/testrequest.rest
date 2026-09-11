@@ -20,6 +20,16 @@ Content-Type:application/json
 
 
 {
-  "codigo_barras": "7891234567890",
-  "quantidade":20
+  "codigo_barras": "7891234567891",
+  "quantidade":60
+}
+
+###
+POST http://127.0.0.1:5000/EditarValor
+Content-Type:application/json
+
+
+{
+  "codigo_barras": "78912345678",
+  "novo_valor":"30"
 }

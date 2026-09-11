@@ -1,22 +1,30 @@
-from flask import blueprints ,request, jsonify
-from models.produto import Produto
+from flask import request, jsonify
+from app.models.produto import Produto
+from app.services.buscar import buscar
 from .Produtos_bp import produtos_bp
 
-@produtos_bp.route("/EditarQuantidade",methods=["POST"])
+
+@produtos_bp.route("/EditarQuantidade", methods=["POST"])
 def editar_produtos():
-    requisição = request.get_json() #receber codigo de barras e quantidade 
-    if not requisição:
-            return jsonify ({"mensagem": f"campo vazio"}),404
-    codigo_barras = requisição["codigo_barras"]
-    quantidade = requisição['quantidade']
-    
-    produto =Produto.buscar(requisição["codigo_barras"])
-    if produto is  None:
-        return jsonify ({"mensagem":f"Produto não encontrado"}),404
+    dados = request.get_json(silent=True)  # recebe codigo de barras e quantidade
+
+    if not isinstance(dados, dict) or "codigo_barras" not in dados or "quantidade" not in dados:
+        return jsonify({"mensagem": "não autorizado, campo incorreto"}), 400
+
+    codigo_barras = dados["codigo_barras"]
+
     try:
-        resultado=produto.ajustar_quantidade(quantidade)
-        if resultado is None:
-            return jsonify ({"mensagem":f"erro na quantidade de itens"}),404
-        return jsonify({"mensagem":f"sucesso, nova quantidade adicionada"}),200
-    except Exception as e:
-        return jsonify ({"mensagem":f"erro {e}"}),404
+        quantidade = int(dados["quantidade"])
+    except (ValueError, TypeError):
+        return jsonify({"mensagem": "quantidade inválida"}), 422
+
+    produto_existe = buscar(codigo_barras)
+    if not produto_existe:
+        return jsonify({"mensagem": "sem resultado, produto não existe"}), 404
+
+    sucesso = Produto.ajustar_quantidade(codigo_barras, quantidade)
+
+    if not sucesso:
+        return jsonify({"mensagem": "erro inesperado, tente novamente"}), 500
+
+    return jsonify({"mensagem": "ok, quantidade ajustada"}), 200
