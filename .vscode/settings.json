@@ -1,5 +1,6 @@
 {
     "code-runner.executorMap": {
         "python": "set PYTHONPATH=$workspaceRoot\\Meu_sistema_para_mercado\\backend && python $fullFileName"
-    }
+    },
+    "python-envs.defaultEnvManager": "ms-python.python:system"
 }

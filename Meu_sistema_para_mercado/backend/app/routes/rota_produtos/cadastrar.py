@@ -3,7 +3,7 @@ from app.DATABASE import get_db
 import sqlite3
 from app.models.produto import Produto
 from .Produtos_bp import produtos_bp
-from app.services.buscar import buscar
+from app.services.service_pra_produto.buscar import buscar
 
 @produtos_bp.route('/cadastrar', methods=["POST"])
 def cadastrar_produto():

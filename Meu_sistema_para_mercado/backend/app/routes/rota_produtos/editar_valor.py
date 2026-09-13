@@ -1,6 +1,6 @@
 from flask import blueprints ,request, jsonify
 from app.models.produto import Produto
-from app.services.buscar import buscar
+from app.services.service_pra_produto.buscar import buscar
 from .Produtos_bp import produtos_bp
 
 
