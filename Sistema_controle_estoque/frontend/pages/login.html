@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Sistema de Controle</title>
+  <link rel="stylesheet" href="../css/login.css">
+  <script src="../js/login.js" defer></script>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Identifique-se</h2>
+    <form id="loginForm">
+      <label for="drt">DRT:</label>
+      <input type="text" id="drt" name="drt" placeholder="Digite seu DRT" required>
+      
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+      
+      <button type="submit">Entrar</button>
+      <div id="erroModal" class="modal">
+  <div class="modal-content">
+    <span id="fechar">&times;</span>
+    <p id="mensagemErro"></p>
+  </div>
+</div>
+
+    </form>
+  </div>
+</body>
+</html>
