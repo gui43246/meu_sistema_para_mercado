@@ -1,34 +1,29 @@
-const usuario = document.getElementById("drt");
-const senha = document.getElementById("senha");
-const botao = document.querySelector("button");
+const formulario = document.getElementById("loginForm");
 
-botao.addEventListener("click", async (event) => {
+formulario.addEventListener("submit", async (event) => {
   event.preventDefault();
-  await Fazer_login();
-});
 
-async function Fazer_login() {
+  const drt = document.getElementById("drt").value.trim();
+  const senha = document.getElementById("senha").value;
+
   try {
-    const response = await fetch("http://localhost:5000/login", {
+    const response = await fetch("/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        drt: usuario.value,
-        senha_digitada: senha.value
-      })
+      body: JSON.stringify({ drt, senha_digitada: senha })
     });
 
     const dados = await response.json();
 
-    if (dados.sucesso === true) {
-      window.location.href = "pages/index.html";
+    if (response.ok && dados.sucesso === true) {
+      window.location.href = "/index";
     } else {
-      alert(dados.mensagem); 
+      alert(dados.mensagem || dados.erro || "Não foi possível fazer login.");
     }
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Erro ao fazer login:", error);
     alert("Erro ao conectar com o servidor.");
   }
-}
+});
